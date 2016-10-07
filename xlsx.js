@@ -11436,6 +11436,15 @@ function writeFileSync(wb, filename, opts) {
 	return writeSync(wb, o);
 }
 
+function writeFileAsync(wb, filename, opts, callback) {
+	var o = opts||{}; o.type = 'file';
+
+	var z = write_zip(wb, o);
+	return z.generateNodeStream({type: 'nodebuffer', streamFiles: true})
+		.pipe(_fs.createWriteStream(filename))
+		.on('finish', () => callback());
+}
+
 function decode_row(rowstr) { return parseInt(unfix_row(rowstr),10) - 1; }
 function encode_row(row) { return "" + (row + 1); }
 function fix_row(cstr) { return cstr.replace(/([A-Z]|^)(\d+)$/,"$1$$$2"); }
