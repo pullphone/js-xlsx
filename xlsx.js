@@ -11436,13 +11436,10 @@ function writeFileSync(wb, filename, opts) {
 	return writeSync(wb, o);
 }
 
-function writeFileAsync(wb, filename, opts, callback) {
+function writeFileAsync(wb, filename, opts) {
 	var o = opts||{}; o.type = 'file';
-
 	var z = write_zip(wb, o);
-	return z.generateNodeStream({type: 'nodebuffer', streamFiles: true})
-		.pipe(_fs.createWriteStream(filename))
-		.on('finish', () => callback());
+	return z.generateNodeStream({type: 'nodebuffer', streamFiles: true});
 }
 
 function decode_row(rowstr) { return parseInt(unfix_row(rowstr),10) - 1; }
