@@ -11436,6 +11436,12 @@ function writeFileSync(wb, filename, opts) {
 	return writeSync(wb, o);
 }
 
+function writeFileAsync(wb, filename, opts) {
+	var o = opts||{}; o.type = 'file';
+	var z = write_zip(wb, o);
+	return z.generateNodeStream({type: 'nodebuffer', streamFiles: true});
+}
+
 function decode_row(rowstr) { return parseInt(unfix_row(rowstr),10) - 1; }
 function encode_row(row) { return "" + (row + 1); }
 function fix_row(cstr) { return cstr.replace(/([A-Z]|^)(\d+)$/,"$1$$$2"); }
@@ -11647,6 +11653,7 @@ XLSX.readFileSync = readFileSync;
 XLSX.write = writeSync;
 XLSX.writeFile = writeFileSync;
 XLSX.writeFileSync = writeFileSync;
+XLSX.writeFileAsync = writeFileAsync;
 XLSX.utils = utils;
 XLSX.CFB = CFB;
 XLSX.SSF = SSF;

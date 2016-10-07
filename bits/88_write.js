@@ -32,3 +32,9 @@ function writeFileSync(wb, filename, opts) {
 	return writeSync(wb, o);
 }
 
+function writeFileAsync(wb, filename, opts) {
+	var o = opts||{}; o.type = 'file';
+	var z = write_zip(wb, o);
+	return z.generateNodeStream({type: 'nodebuffer', streamFiles: true});
+}
+
